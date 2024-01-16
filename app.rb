@@ -36,14 +36,26 @@ end
 
 get("/payment/results") do
   @apr = params.fetch("apr").to_f
-  @years = params.fetch("years").to_f
+  @years = params.fetch("years").to_i
   @principal = params.fetch("principal").to_f
 
   @apr_monthly = @apr/12/100
-  @years_monthly = @years/12
+  @years_monthly = @years * -12
   @numerator = @principal * @apr_monthly
-  @denominator = 1 - (1 + @apr_monthly) ** (-@years_monthly)
-  @payment = (@numerator/@denominator/100).round(4).to_s
+  @denominator = 1 - ((1 + @apr_monthly) ** @years_monthly)
+  @payment = (@numerator/@denominator).round(2)
 
   erb(:payment_results)
+end
+
+get("/random/new") do
+  erb(:random)
+end
+
+get("/random/results") do
+  @users_min = params.fetch("users_min").to_f
+  @users_max = params.fetch("users_max").to_f
+  @rand_num = rand(@users_min..@users_max)
+
+  erb(:random_number)
 end

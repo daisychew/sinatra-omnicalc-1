@@ -23,13 +23,13 @@
       Principal
     </dt>
     <dd>
-      <%= @principal %>
+      <%= sprintf("$%.2f", @principal) %>
 
     <dt>
       Payment
     </dt>
     <dd>
-      <%= @payment %>%
+      <%= sprintf("$%.2f", @payment) %>
     </dd>
 </dl>
 
