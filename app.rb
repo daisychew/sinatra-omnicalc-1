@@ -29,3 +29,21 @@ get("/square_root/results") do
 
   erb(:square_rooted)
 end
+
+get("/payment/new") do
+  erb(:payment)
+end
+
+get("/payment/results") do
+  @apr = params.fetch("apr").to_f
+  @years = params.fetch("years").to_f
+  @principal = params.fetch("principal").to_f
+
+  @apr_monthly = @apr/12/100
+  @years_monthly = @years/12
+  @numerator = @principal * @apr_monthly
+  @denominator = 1 - (1 + @apr_monthly) ** (-@years_monthly)
+  @payment = (@numerator/@denominator/100).round(4).to_s
+
+  erb(:payment_results)
+end
