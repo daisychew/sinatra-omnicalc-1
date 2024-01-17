@@ -1,5 +1,6 @@
 require "sinatra"
 require "sinatra/reloader"
+require "active_support/all"
 
 get("/") do
   "
@@ -43,7 +44,7 @@ get("/payment/results") do
   @years_monthly = @years * -12
   @numerator = @principal * @apr_monthly
   @denominator = 1 - ((1 + @apr_monthly) ** @years_monthly)
-  @payment = (@numerator/@denominator).round(2)
+  @payment = (@numerator/@denominator).to_fs(:currency)
 
   erb(:payment_results)
 end
